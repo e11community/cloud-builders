@@ -2,7 +2,7 @@ FROM node:14-buster
 
 RUN apt-get update && apt-get install gettext-base
 
-RUN npm_config_user=root npm i -g @angular/cli @e11community/token-exporter firebase-tools rollbar-cli && \
+RUN npm_config_user=root npm install --no-progress -g @angular/cli @e11community/token-exporter firebase-tools rollbar-cli && \
     yarn global add typescript
 
 RUN mkdir -p /opt && cd /opt && \
