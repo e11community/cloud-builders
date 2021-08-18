@@ -18,6 +18,11 @@ RUN mkdir -p /opt && cd /opt && \
 
 ADD firebase.bash /usr/bin
 
-RUN chmod +x /usr/bin/firebase.bash && ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
+RUN chmod +x /usr/bin/firebase.bash && \
+    ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin && \
+    echo -n 'node version: '     && node --version && \
+    echo -n 'npm version: '      && npm --version && \
+    echo -n 'firebase version: ' && firebase --version
 
 ENTRYPOINT [ "/usr/bin/firebase.bash" ]
+

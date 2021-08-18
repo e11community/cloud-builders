@@ -3,6 +3,8 @@ steps:
   - id: setup-home-and-workspace
     name: 'gcr.io/cloud-builders/git'
     entrypoint: bash
+    secretEnv:
+      - npm_token
     args:
       - '-c'
       - |
