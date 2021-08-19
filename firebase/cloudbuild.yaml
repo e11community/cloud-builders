@@ -12,6 +12,8 @@ steps:
         cat > ~/.npmrc <<EOH
         ${npm_token}
         EOH
+        . /usr/local/lib/utils.bash
+        print_versions node npm firebase gcloud
   - id: docker-build
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/firebase', '.']
