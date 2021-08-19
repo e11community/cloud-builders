@@ -1,5 +1,7 @@
 FROM node:14-buster
 
+ARG NPM_TOKEN
+
 # os packages
 RUN apt-get update && apt-get install -y gettext-base sudo
 
