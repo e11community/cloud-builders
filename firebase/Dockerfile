@@ -5,13 +5,20 @@ ARG NPM_TOKEN
 # os packages
 RUN apt-get update && apt-get install -y gettext-base sudo
 
-# npm packages
-RUN npm_config_user=root npm install --no-progress --global \
-    @angular/cli \
-    @e11community/token-exporter \
-    firebase-tools \
-    rollbar-cli && \
-    yarn global add typescript
+# node packages
+RUN npm config set @engineering11:registry=https://npm.pkg.github.com/engineering11/ && \
+    npm config set //npm.pkg.github.com/engineering11/:_authToken=${NPM_TOKEN} && \
+    npm install --no-progress --global \
+      @e11community/token-exporter \
+      @engineering11/sdk-schematics \
+      @angular/cli \
+      @angular-devkit/schematics-cli \
+      firebase-tools \
+      rollbar-cli && \
+    rm -f ~/.npmrc
+
+# ts
+RUN yarn global add typescript
 
 # gcloud install
 RUN mkdir -p /opt && cd /opt && \
@@ -30,8 +37,8 @@ RUN chmod +x /usr/bin/firebase.bash && \
 ADD utils.bash /usr/local/lib/
 RUN . /usr/local/lib/utils.bash && \
     print_versions node npm firebase gcloud && \
-    echo '~===~===~' && \
+    echo '~===~ node limits ~===~' && \
     sudo -u node sh -c 'ulimit -a' && \
-    echo '~===~===~'
+    echo '~===~ -*-*-*-*-*- ~===~'
 
 ENTRYPOINT [ "/usr/bin/firebase.bash" ]
