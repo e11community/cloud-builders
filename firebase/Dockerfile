@@ -18,7 +18,8 @@ RUN chown -R 65534:0 "/root/.npm" && \
 # other public node packages
 RUN npm install --no-progress --global    \
         @angular/cli                      \
-        @angular-devkit/schematics-cli && \
+        @angular-devkit/schematics-cli    \
+        rollbar-cli                    && \
     yarn global add typescript
 
 # private node packages
