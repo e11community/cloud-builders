@@ -1,11 +1,15 @@
 FROM node:14-buster
 
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-343.0.0-linux-x86_64.tar.gz'
+ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
 # os packages
-RUN apt-get update &&    \
-    apt-get install -y   \ 
-            gettext-base \
+RUN apt-get update       && \
+    apt-get install -y      \ 
+            gettext-base    \
+            jq              \
+            netcat          \
             sudo
 
 # clean firebase packages
@@ -19,24 +23,30 @@ RUN chown -R 65534:0 "/root/.npm" && \
 RUN npm install --no-progress --global    \
         @angular/cli                      \
         @angular-devkit/schematics-cli    \
-        rollbar-cli                    && \
+        api-spec-converter                \
+        @nestjs/cli                       \
+        rollbar-cli                       \
+        yaml                           && \
     yarn global add typescript
 
 # private node packages
-RUN npm config set @engineering11:registry=https://npm.pkg.github.com/engineering11/ && \
-    npm config set //npm.pkg.github.com/engineering11/:_authToken=${NPM_TOKEN} &&       \
-    npm install --no-progress --global                                                  \
-        @e11community/token-exporter                                                    \
-        @engineering11/sdk-schematics &&                                                \
+RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
+    npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
+    npm install --no-progress --global                            \
+        @e11community/token-exporter                              \
+        @engineering11/sdk-schematics                          && \
     rm -f ~/.npmrc
 
 # gcloud install
-RUN mkdir -p /opt && cd /opt &&           \
-    curl -so gcp-sdk.tgz 'https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-343.0.0-linux-x86_64.tar.gz' && \
-    tar xfz gcp-sdk.tgz &&                \
-    cd google-cloud-sdk &&                \
-    ./install.sh -q --path-update true && \
-    cd - && rm gcp-sdk.tgz
+RUN mkdir -p /opt && cd /opt                                               && \
+    curl -so gcp-sdk.tgz --url ${CLOUD_SDK_URL}                            && \
+    tar xfz gcp-sdk.tgz                                                    && \
+    cd google-cloud-sdk                                                    && \
+    ./install.sh -q --path-update true                                     && \
+    cd /root                                                               && \
+    /opt/google-cloud-sdk/bin/gcloud components update --quiet             && \
+    /opt/google-cloud-sdk/bin/gcloud components install alpha beta --quiet && \
+    rm /opt/gcp-sdk.tgz
 
 # firebase and gcloud setup
 ADD firebase.bash /usr/bin/
