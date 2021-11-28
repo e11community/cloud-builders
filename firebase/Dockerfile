@@ -34,6 +34,7 @@ RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
     npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
     npm install --no-progress --global                            \
         @e11community/token-exporter                              \
+        @engineering11/ecli                                       \
         @engineering11/sdk-schematics                          && \
     rm -f ~/.npmrc
 
