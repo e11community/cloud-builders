@@ -9,13 +9,14 @@ RUN apt-get update && apt-get install -y gettext-base sudo
 RUN npm_config_user=root npm install --no-progress --global \
     @angular/cli \
     @e11community/token-exporter \
-    firebase-tools \
     rollbar-cli && \
     yarn global add typescript
 
-# gcloud install
+# gcloud and firebase install
 RUN mkdir -p /opt && cd /opt && \
-    curl -so gcp-sdk.tgz 'https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-343.0.0-linux-x86_64.tar.gz' && \
+    curl -Lso gcp-sdk.tgz 'https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-343.0.0-linux-x86_64.tar.gz' && \
+    curl -Lso firebase 'https://firebase.tools/bin/linux/latest' && \
+    install -m 755 ./firebase /usr/bin/firebase && \
     tar xfz gcp-sdk.tgz && \
     cd google-cloud-sdk && \
     ./install.sh -q --path-update true && \
