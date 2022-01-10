@@ -12,14 +12,7 @@ RUN apt-get update       && \
             netcat          \
             sudo
 
-# clean firebase packages
-RUN npm install --no-progress --global firebase-tools
-
-# KLUDGE to get around build issues
-RUN chown -R 65534:0 "/root/.npm" && \
-    npm install --no-progress --global firebase-tools
-
-# other public node packages
+# public node packages
 RUN npm install --no-progress --global    \
         @angular/cli                      \
         @angular-devkit/schematics-cli    \
@@ -38,8 +31,10 @@ RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
         @engineering11/sdk-schematics                          && \
     rm -f ~/.npmrc
 
-# gcloud install
+# firebase and gcloud install
 RUN mkdir -p /opt && cd /opt                                               && \
+    curl -Lso firebase 'https://firebase.tools/bin/linux/latest'           && \
+    install -m 755 ./firebase /usr/bin/firebase                            && \
     curl -so gcp-sdk.tgz --url ${CLOUD_SDK_URL}                            && \
     tar xfz gcp-sdk.tgz                                                    && \
     cd google-cloud-sdk                                                    && \
@@ -51,15 +46,15 @@ RUN mkdir -p /opt && cd /opt                                               && \
 
 # firebase and gcloud setup
 ADD firebase.bash /usr/bin/
-RUN chmod +x /usr/bin/firebase.bash &&                     \
+RUN chmod +x /usr/bin/firebase.bash                        && \
     ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
 
 # versions and limits
 ADD utils.bash /usr/local/lib/
-RUN . /usr/local/lib/utils.bash &&              \
-    print_versions node npm firebase gcloud &&  \
-    echo '~===~ node limits ~===~' &&           \
-    sudo -u node sh -c 'ulimit -a' &&           \
+RUN . /usr/local/lib/utils.bash             && \
+    print_versions node npm firebase gcloud && \
+    echo '~===~ node limits ~===~'          && \
+    sudo -u node sh -c 'ulimit -a'          && \
     echo '~===~ -*-*-*-*-*- ~===~'
 
 ENTRYPOINT [ "/usr/bin/firebase.bash" ]
