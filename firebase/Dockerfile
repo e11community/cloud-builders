@@ -16,9 +16,8 @@ RUN apt-get update       && \
 RUN npm install --no-progress --global    \
         @angular/cli                      \
         @angular-devkit/schematics-cli    \
-        ajv                               \
+        ajv@6.9.2                         \
         api-spec-converter                \
-        jsonpath                          \
         @nestjs/cli                       \
         rollbar-cli                       \
         yaml                           && \
