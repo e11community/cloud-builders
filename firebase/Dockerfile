@@ -10,7 +10,8 @@ RUN apt-get update       && \
             gettext-base    \
             jq              \
             netcat          \
-            sudo
+            sudo            \
+            zip
 
 # public node packages
 RUN npm install --no-progress --global    \
