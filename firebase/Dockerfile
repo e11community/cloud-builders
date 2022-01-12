@@ -15,11 +15,13 @@ RUN apt-get update       && \
 
 # public node packages
 RUN npm install --no-progress --global    \
+        ajv@6.9.2                         \
         @angular/cli                      \
         @angular-devkit/schematics-cli    \
-        ajv@6.9.2                         \
         api-spec-converter                \
         @nestjs/cli                       \
+        @pulumi/pulumi                    \
+        @pulumi/google-native             \
         rollbar-cli                       \
         yaml                           && \
     yarn global add typescript
@@ -50,6 +52,9 @@ RUN mkdir -p /opt && cd /opt                                               && \
 ADD firebase.bash /usr/bin/
 RUN chmod +x /usr/bin/firebase.bash                        && \
     ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
+
+# Pulumi CLI
+RUN curl -L https://get.pulumi.com/ | bash
 
 # versions and limits
 ADD utils.bash /usr/local/lib/
