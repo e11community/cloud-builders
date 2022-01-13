@@ -1,4 +1,4 @@
-FROM node:14-buster
+FROM node:16-buster
 
 ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-367.0.0-linux-x86_64.tar.gz'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
@@ -14,22 +14,22 @@ RUN apt-get update       && \
             zip
 
 # public node packages
-RUN npm install --no-progress --global    \
-        ajv@6.9.2                         \
-        @angular/cli                      \
-        @angular-devkit/schematics-cli    \
-        api-spec-converter                \
-        @nestjs/cli                       \
-        @pulumi/pulumi                    \
-        @pulumi/google-native             \
-        rollbar-cli                       \
-        yaml                           && \
+RUN npm install --no-progress --global --legacy-peer-deps=true \
+        ajv@6.9.2                                              \
+        @angular/cli                                           \
+        @angular-devkit/schematics-cli                         \
+        api-spec-converter                                     \
+        @nestjs/cli                                            \
+        @pulumi/pulumi                                         \
+        @pulumi/google-native                                  \
+        rollbar-cli                                            \
+        yaml                                                && \
     yarn global add typescript
 
 # private node packages
 RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
     npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
-    npm install --no-progress --global                            \
+    npm install --legacy-peer-deps=true --no-progress --global    \
         @e11community/token-exporter                              \
         @engineering11/ecli                                       \
         @engineering11/sdk-schematics                          && \
