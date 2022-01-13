@@ -10,7 +10,7 @@ steps:
       - |
         docker build \
           --build-arg NPM_TOKEN="$$engineering11_npm_auth_token" \
-          --platform linux/x86_64
+          --platform linux/x86_64 \
           --ulimit nofile=128000:128000 \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG1} \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG2} \
