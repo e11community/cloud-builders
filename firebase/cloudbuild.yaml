@@ -10,12 +10,18 @@ steps:
       - |
         docker build \
           --build-arg NPM_TOKEN="$$engineering11_npm_auth_token" \
+          --platform linux/x86_64
           --ulimit nofile=128000:128000 \
-          -t gcr.io/${PROJECT_ID}/firebase \
+          --tag gcr.io/${PROJECT_ID}/firebase:${_TAG1} \
+          --tag gcr.io/${PROJECT_ID}/firebase:${_TAG2} \
           .
 images:
-  - 'gcr.io/${PROJECT_ID}/firebase'
+  - 'gcr.io/${PROJECT_ID}/firebase:${_TAG1}'
+  - 'gcr.io/${PROJECT_ID}/firebase:${_TAG2}'
 tags: ['cloud-builders-community']
+substitutions:
+  _TAG1: node14
+  _TAG2: latest
 availableSecrets:
   secretManager:
     - versionName: projects/${PROJECT_ID}/secrets/engineering11_npm_auth_token/versions/latest
