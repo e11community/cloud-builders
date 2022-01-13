@@ -20,7 +20,7 @@ images:
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG2}'
 tags: ['cloud-builders-community']
 substitutions:
-  _TAG1: node16
+  _TAG1: nodejs16
   _TAG2: legacy-peer-deps
 availableSecrets:
   secretManager:
