@@ -19,6 +19,7 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
         @angular/cli                                           \
         @angular-devkit/schematics-cli                         \
         api-spec-converter                                     \
+        gts@3.1.0                                              \
         @nestjs/cli                                            \
         @pulumi/pulumi                                         \
         @pulumi/google-native                                  \
