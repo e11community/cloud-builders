@@ -1,6 +1,6 @@
 FROM node:16-buster
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-368.0.0-linux-x86_64.tar.gz'
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-387.0.0-linux-x86_64.tar.gz'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
