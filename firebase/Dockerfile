@@ -1,4 +1,4 @@
-FROM node:16-buster
+FROM node:16.14.0-buster
 
 ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-387.0.0-linux-x86_64.tar.gz'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
@@ -20,6 +20,7 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
         @angular-devkit/schematics-cli                         \
         api-spec-converter                                     \
         gts@3.1.0                                              \
+        husky                                                  \
         @nestjs/cli                                            \
         @pulumi/pulumi                                         \
         @pulumi/google-native                                  \
