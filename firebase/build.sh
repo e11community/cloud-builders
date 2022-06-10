@@ -5,8 +5,8 @@ declare -i to_shift=0
 
 for arg in "$@"; do
   case "$arg" in
-    --project-id=*) to_shift=$(( $to_shift + 1 )); PROJECT_ID="${arg#*=}";;
-    --tag=*) to_shift=$(( $to_shift + 1 )); TAG="${arg#*=}";;
+    --project-id=*) ((++to_shift)); PROJECT_ID="${arg#*=}";;
+    --tag=*) ((++to_shift)); TAG="${arg#*=}";;
   esac
 done
 
