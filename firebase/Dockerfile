@@ -11,6 +11,8 @@ ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/go
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
+ENV NODE_PATH=/usr/local/lib/node_modules
+
 # os packages
 RUN apt-get update       && \
     apt-get install -y      \
@@ -26,6 +28,10 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
         @angular/cli                                           \
         @angular-devkit/schematics-cli                         \
         api-spec-converter                                     \
+        google-auth-library                                    \
+        @google-cloud/appengine-admin                          \
+        @google-cloud/iap                                      \
+        @google-cloud/resource-manager                         \
         gts@3.1.0                                              \
         husky                                                  \
         @nestjs/cli                                            \
