@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #
 # Highest version of node with the highest version of npm < 8.5.0
 #
@@ -36,8 +37,6 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
         gts@3.1.0                                              \
         husky                                                  \
         @nestjs/cli                                            \
-        @pulumi/pulumi                                         \
-        @pulumi/google-native                                  \
         rollbar-cli                                            \
         yaml                                                && \
     yarn global add typescript
@@ -69,9 +68,6 @@ ADD firebase.bash /usr/bin/
 RUN chmod +x /usr/bin/firebase.bash                        && \
     ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
 
-# Pulumi CLI
-RUN curl -L https://get.pulumi.com/ | bash
-
 # versions and limits
 ADD utils.bash /usr/local/lib/
 RUN . /usr/local/lib/utils.bash             && \
@@ -79,5 +75,8 @@ RUN . /usr/local/lib/utils.bash             && \
     echo '~===~ node limits ~===~'          && \
     sudo -u node sh -c 'ulimit -a'          && \
     echo '~===~ -*-*-*-*-*- ~===~'
+
+ADD firebase.bash /usr/bin
+RUN chmod +x /usr/bin/firebase.bash
 
 ENTRYPOINT [ "/usr/bin/firebase.bash" ]
