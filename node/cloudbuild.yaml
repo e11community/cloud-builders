@@ -1,0 +1,19 @@
+---
+steps:
+  - id: docker-build
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: bash
+    args:
+      - '-c'
+      - |
+        docker build \
+          --build-arg NODE_TAG="${_NODE_TAG}" \
+          --platform linux/x86_64 \
+          --ulimit nofile=128000:128000 \
+          --tag gcr.io/${PROJECT_ID}/node:${_NODE_TAG} \
+          .
+images:
+  - 'gcr.io/${PROJECT_ID}/firebase:${_NODE_TAG}'
+tags: ['cloud-builders-community', 'engineering11']
+substitutions:
+  _NODE_TAG: 16.14.0-buster

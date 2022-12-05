@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #
 # Highest version of node with the highest version of npm < 8.5.0
 #
@@ -6,70 +5,28 @@
 # See: https://github.com/npm/cli/blob/latest/CHANGELOG.md#v850-2022-02-10
 # See: https://github.com/npm/cli/issues/2546
 #
-FROM node:16.14.0-buster
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-396.0.0-linux-x86_64.tar.gz'
+ARG GCLOUD_TAG=410.0.0
+ARG PROJECT_ID
+
+FROM gcr.io/${PROJECT_ID}/gcloud:${GCLOUD_TAG}
+
+ARG FIREBASE_TAG=11.8.0
 ARG FIREBASE_URL='https://firebase.tools/bin/linux/v11.8.0'
-ARG NPM_E11='npm.pkg.github.com/engineering11'
-ARG NPM_TOKEN
+ARG NODE_TAG=16.14.0-buster
 
 ENV NODE_PATH=/usr/local/lib/node_modules
 
-# os packages
-RUN apt-get update       && \
-    apt-get install -y      \
-            gettext-base    \
-            jq              \
-            netcat          \
-            sudo            \
-            zip
-
-# public node packages
-RUN npm install --no-progress --global --legacy-peer-deps=true \
-        ajv@6.9.2                                              \
-        @angular/cli                                           \
-        @angular-devkit/schematics-cli                         \
-        api-spec-converter                                     \
-        google-auth-library                                    \
-        @google-cloud/appengine-admin                          \
-        @google-cloud/iap                                      \
-        @google-cloud/resource-manager                         \
-        gts@3.1.0                                              \
-        husky                                                  \
-        @nestjs/cli                                            \
-        rollbar-cli                                            \
-        yaml                                                && \
-    yarn global add typescript
-
-# private node packages
-RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
-    npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
-    npm install --legacy-peer-deps=true --no-progress --global    \
-        @e11community/token-exporter                              \
-        @engineering11/ecli                                       \
-        @engineering11/sdk-schematics                          && \
-    rm -f ~/.npmrc
-
-# firebase and gcloud install
+# firebase install
 RUN mkdir -p /opt && cd /opt                                               && \
     curl -Lso firebase --url ${FIREBASE_URL}                               && \
-    install -m 755 ./firebase /usr/bin/firebase                            && \
-    curl -so gcp-sdk.tgz --url ${CLOUD_SDK_URL}                            && \
-    tar xfz gcp-sdk.tgz                                                    && \
-    cd google-cloud-sdk                                                    && \
-    ./install.sh -q --path-update true                                     && \
-    cd /root                                                               && \
-    /opt/google-cloud-sdk/bin/gcloud components update --quiet             && \
-    /opt/google-cloud-sdk/bin/gcloud components install alpha beta --quiet && \
-    rm /opt/gcp-sdk.tgz
+    install -m 755 ./firebase /usr/bin/firebase
 
-# firebase and gcloud setup
+# firebase setup
 ADD firebase.bash /usr/bin/
-RUN chmod +x /usr/bin/firebase.bash                        && \
-    ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
+RUN chmod +x /usr/bin/firebase.bash
 
 # versions and limits
-ADD utils.bash /usr/local/lib/
 RUN . /usr/local/lib/utils.bash             && \
     print_versions node npm firebase gcloud && \
     echo '~===~ node limits ~===~'          && \
