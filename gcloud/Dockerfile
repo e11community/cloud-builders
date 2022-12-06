@@ -6,12 +6,11 @@
 # See: https://github.com/npm/cli/issues/2546
 #
 ARG PROJECT_ID
+ARG NODE_TAG=16.14.0-buster
 
 FROM gcr.io/${PROJECT_ID}/node:${NODE_TAG}
 
 ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-410.0.0-linux-x86_64.tar.gz'
-ARG GCLOUD_TAG=410.0.0
-ARG NODE_TAG=16.14.0-buster
 
 ENV NODE_PATH=/usr/local/lib/node_modules
 
@@ -24,10 +23,8 @@ RUN mkdir -p /opt && cd /opt                                               && \
     cd /root                                                               && \
     /opt/google-cloud-sdk/bin/gcloud components update --quiet             && \
     /opt/google-cloud-sdk/bin/gcloud components install alpha beta --quiet && \
-    rm /opt/gcp-sdk.tgz
-
-# gcloud setup
-RUN ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
+    rm /opt/gcp-sdk.tgz                                                    && \
+    [ -e /usr/local/bin/gcloud ] || ln -s /opt/google-cloud-sdk/bin/gcloud /usr/local/bin
 
 # versions and limits
 RUN . /usr/local/lib/utils.bash             && \

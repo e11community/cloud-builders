@@ -7,7 +7,8 @@ steps:
       - '-c'
       - |
         docker build \
-          --build-arg NPM_TOKEN="$$engineering11_npm_auth_token" \
+          --build-arg GCLOUD_TAG=${_GCLOUD_TAG} \
+          --build-arg PROJECT_ID=${PROJECT_ID} \
           --platform linux/x86_64 \
           --ulimit nofile=128000:128000 \
           --tag gcr.io/${PROJECT_ID}/firebase:node-${_NODE_TAG} \

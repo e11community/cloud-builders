@@ -11,9 +11,7 @@ ARG PROJECT_ID
 
 FROM gcr.io/${PROJECT_ID}/gcloud:${GCLOUD_TAG}
 
-ARG FIREBASE_TAG=11.8.0
 ARG FIREBASE_URL='https://firebase.tools/bin/linux/v11.8.0'
-ARG NODE_TAG=16.14.0-buster
 
 ENV NODE_PATH=/usr/local/lib/node_modules
 

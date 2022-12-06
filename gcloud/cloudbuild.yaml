@@ -7,7 +7,6 @@ steps:
       - '-c'
       - |
         docker build \
-          --build-arg GCLOUD_TAG="${_GCLOUD_TAG}" \
           --build-arg NODE_TAG="${_NODE_TAG}" \
           --build-arg PROJECT_ID="${PROJECT_ID}" \
           --platform linux/x86_64 \
