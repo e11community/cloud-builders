@@ -1,2 +1,2 @@
-#!/usr/bin/env node
-../common/build.sh --image=firebase "$@"
+#!/usr/bin/env bash
+../common/build.sh --image=firebase --build-with-project=true "$@"

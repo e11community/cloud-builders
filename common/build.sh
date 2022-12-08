@@ -33,7 +33,7 @@ fi
 
 declare cmd="${1:-build}"
 shift 1
-declare -a valid_cmds=(build spread)
+declare -a valid_cmds=(build spread submit)
 declare -i cmd_match=1
 
 for to_match in "${valid_cmds[@]}"; do
@@ -83,6 +83,19 @@ cmd_spread() {
       docker push gcr.io/${other_project_id}/${IMAGE_NAME}:${ancestor}
     done
   done
+}
+
+cmd_submit() {
+  CAPS_IMAGE_NAME="$(echo -n "${IMAGE_NAME}" | tr 'a-z' 'A-Z')"
+  declare -a substitutions=("_${CAPS_IMAGE_NAME}_TAG=${MAIN_VERSION_TAG}")
+  for ancestor in "${ancestors[@]}"; do
+    ancestor_name="${ancestor%%-*}"
+    ancestor_version="${ancestor#*-}"
+    ancestor_name="$(echo -n $ancestor_name | tr 'a-z' 'A-Z')"
+    substitutions+=("_${ancestor_name}_TAG"="${ancestor_version}")
+  done
+  subsCDL="$(echo -n "${substitutions[@]}" | tr ' ' ',')"
+  gcloud builds submit . --substitutions "${subsCDL}" --project=$PROJECT_ID
 }
 
 eval "cmd_$cmd $@"
