@@ -1,0 +1,4 @@
+---
+image-name: gcloud
+main-version: 410.0.0
+parent: node

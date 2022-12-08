@@ -18,6 +18,7 @@ RUN apt-get update       && \
             jq              \
             netcat          \
             sudo            \
+            vim             \
             zip
 
 # public node packages
@@ -57,6 +58,7 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
 
 # versions and limits
 ADD utils.bash /usr/local/lib/
+ADD .bashrc /root/
 RUN . /usr/local/lib/utils.bash             && \
     print_versions node npm                 && \
     echo '~===~ node limits ~===~'          && \
