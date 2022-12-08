@@ -13,7 +13,7 @@ steps:
           --tag gcr.io/${PROJECT_ID}/node:${_NODE_TAG} \
           .
 images:
-  - 'gcr.io/${PROJECT_ID}/firebase:${_NODE_TAG}'
+  - 'gcr.io/${PROJECT_ID}/node:${_NODE_TAG}'
 tags: ['cloud-builders-community', 'engineering11']
 substitutions:
   _NODE_TAG: 16.14.0-buster

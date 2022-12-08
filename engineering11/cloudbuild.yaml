@@ -20,5 +20,5 @@ images:
   - 'gcr.io/${PROJECT_ID}/gcloud:node-${_NODE_TAG}'
 tags: ['cloud-builders-community', 'engineering11']
 substitutions:
-  - _GCLOUD_TAG: 410.0.0
-  _ _NODE_TAG: 16.14.0-buster
+  _GCLOUD_TAG: 410.0.0
+  _NODE_TAG: 16.14.0-buster
