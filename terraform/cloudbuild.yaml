@@ -13,18 +13,18 @@ steps:
       - |
         docker build \
           --build-arg GCLOUD_TAG=$_GCLOUD_TAG \
-          --build-arg NODE_TAG=$_NODE TAG \
+          --build-arg NODE_TAG=$_NODE_TAG \
           --build-arg PROJECT_ID=$PROJECT_ID \
           --build-arg TERRAFORM_VERSION=${_TERRAFORM_VERSION} \
           --build-arg TERRAFORM_VERSION_SHA256SUM=${_TERRAFORM_VERSION_SHA256SUM} \
-          --tag gcr.io/${PROJECT_ID}/terraform:gcloud-${_GCLOUD_VERSION} \
+          --tag gcr.io/${PROJECT_ID}/terraform:gcloud-${_GCLOUD_TAG} \
           --tag gcr.io/${PROJECT_ID}/terraform:node-${_NODE_TAG} \
           --tag gcr.io/${PROJECT_ID}/terraform:${_TERRAFORM_VERSION} \
           .
 images:
   - 'gcr.io/${PROJECT_ID}/terraform:${_TERRAFORM_VERSION}'
-  - 'gcr.io/${PROJECT_ID}/terraform:gcloud-${_GCLOUD_VERSION}'
-  - 'gcr.io/${PROJECT_ID}/terraform:node-${_NODE_VERSION}'
+  - 'gcr.io/${PROJECT_ID}/terraform:gcloud-${_GCLOUD_TAG}'
+  - 'gcr.io/${PROJECT_ID}/terraform:node-${_NODE_TAG}'
 tags: ['cloud-builders-community', 'engineering11']
 substitutions:
   _GCLOUD_TAG: 410.0.0

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-declare BUILD_WITH_PROJECT='' IMAGE_NAME='' MAIN_VERSION_TAG='' PROJECT_ID='' 
-declare -i to_shift=0
+declare BUILD_WITH_PROJECT='' IMAGE_NAME='' MAIN_VERSION_TAG='' PROJECT_ID='' RAW_SUBSTITUTIONS=''
+declare -i to_shift=0 main_version_sub=0 do_output=0
 declare -a ancestors=()
 
 for arg in "$@"; do
@@ -10,7 +10,10 @@ for arg in "$@"; do
     --build-with-project=*) ((++to_shift)); BUILD_WITH_PROJECT+=("${arg#*=}");;
     --image=*) ((++to_shift)); IMAGE_NAME="${arg#*=}";;
     --main-version=*) ((++to_shift)); MAIN_VERSION_TAG="${arg#*=}";;
+    --no-main-version-sub) ((++to_shift)); main_version_sub=1;;
+    --no-output) ((++to_shift)); do_output=1;;
     --project=*) ((++to_shift)); PROJECT_ID="${arg#*=}";;
+    --raw-substitutions=*) ((++to_shift)); RAW_SUBSTITUTIONS="${arg#*=}";;
   esac
 done
 
@@ -86,8 +89,11 @@ cmd_spread() {
 }
 
 cmd_submit() {
-  CAPS_IMAGE_NAME="$(echo -n "${IMAGE_NAME}" | tr 'a-z' 'A-Z')"
-  declare -a substitutions=("_${CAPS_IMAGE_NAME}_TAG=${MAIN_VERSION_TAG}")
+  declare -a substitutions=()
+  if [ $main_version_sub -eq 0 ]; then
+    CAPS_IMAGE_NAME="$(echo -n "${IMAGE_NAME}" | tr 'a-z' 'A-Z')"
+    substitutions+=("_${CAPS_IMAGE_NAME}_TAG=${MAIN_VERSION_TAG}")
+  fi
   for ancestor in "${ancestors[@]}"; do
     ancestor_name="${ancestor%%-*}"
     ancestor_version="${ancestor#*-}"
@@ -95,7 +101,18 @@ cmd_submit() {
     substitutions+=("_${ancestor_name}_TAG"="${ancestor_version}")
   done
   subsCDL="$(echo -n "${substitutions[@]}" | tr ' ' ',')"
-  gcloud builds submit . --substitutions "${subsCDL}" --project=$PROJECT_ID
+  if [ -n "${RAW_SUBSTITUTIONS}" ]; then
+    if [ -n "${subsCDL}" ]; then
+      subsCDL="${subsCDL},${RAW_SUBSTITUTIONS}"
+    else
+      subsCDL="${RAW_SUBSTITUTIONS}"
+    fi
+  fi
+  declare -a more_args=()
+  if [ $do_output -ne 0 ]; then
+    more_args+=(--async --suppress-logs)
+  fi
+  gcloud builds submit . --substitutions "${subsCDL}" --project=$PROJECT_ID "${more_args[@]}"
 }
 
 eval "cmd_$cmd $@"
