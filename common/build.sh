@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
+# chore: custom build args
 
 declare BUILD_WITH_PROJECT='' IMAGE_NAME='' MAIN_VERSION_TAG='' PROJECT_ID='' RAW_SUBSTITUTIONS=''
 declare -i to_shift=0 main_version_sub=0 do_output=0
 declare -a ancestors=()
+declare -a custom_build_args=()
 
 for arg in "$@"; do
   case "$arg" in
     --ancestor=*) ((++to_shift)); ancestors+=("${arg#*=}");;
     --build-with-project=*) ((++to_shift)); BUILD_WITH_PROJECT+=("${arg#*=}");;
+    --custom-build-arg=*) ((++to_shift)); custom_build_args+=(--build-arg "${arg#*=}");;
     --image=*) ((++to_shift)); IMAGE_NAME="${arg#*=}";;
     --main-version=*) ((++to_shift)); MAIN_VERSION_TAG="${arg#*=}";;
     --no-main-version-sub) ((++to_shift)); main_version_sub=1;;
@@ -67,6 +70,7 @@ cmd_build() {
   docker build \
     --platform linux/x86_64 \
     --ulimit nofile=128000:128000 \
+    "${custom_build_args[@]}" \
     "${build_args[@]}" \
     --tag gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${MAIN_VERSION_TAG} \
     ${more_tags[@]} \

@@ -13,18 +13,18 @@ FROM gcr.io/${PROJECT_ID}/firebase:${FIREBASE_TAG}
 
 ARG GCLOUD_TAG=410.0.0
 ARG NODE_TAG=16.14.0-buster
-ARG NPM_E11='npm.pkg.github.com/engineering11'
-ARG NPM_TOKEN
+ARG ENGINEERING11_NPM_REGISTRY='npm.pkg.github.com/engineering11'
+ARG ENGINEERING11_NPM_AUTH_TOKEN
 
 ENV NODE_PATH=/usr/local/lib/node_modules
 
 # private node packages
-RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
-    npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
-    npm install --legacy-peer-deps=true --no-progress --global    \
-        @e11community/token-exporter                              \
-        @engineering11/ecli                                       \
-        @engineering11/sdk-schematics                          && \
+RUN npm config set @engineering11:registry=https://${ENGINEERING11_NPM_REGISTRY}/              && \
+    npm config set //${ENGINEERING11_NPM_REGISTRY}/:_authToken=${ENGINEERING11_NPM_AUTH_TOKEN} && \
+    npm install --legacy-peer-deps=true --no-progress --global                                    \
+        @e11community/token-exporter                                                              \
+        @engineering11/ecli                                                                       \
+        @engineering11/sdk-schematics                                                          && \
     rm -f ~/.npmrc
 
 RUN . /usr/local/lib/utils.bash             && \
