@@ -26,4 +26,7 @@ steps:
 images:
   - 'gcr.io/${PROJECT_ID}/terraform:${_TERRAFORM_VERSION}'
   - 'gcr.io/${PROJECT_ID}/terraform:latest'
-tags: ['cloud-builders-community']
+tags:
+  - cloud-builders-community
+  - engineering11
+

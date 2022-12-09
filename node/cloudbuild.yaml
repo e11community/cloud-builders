@@ -14,6 +14,8 @@ steps:
           .
 images:
   - 'gcr.io/${PROJECT_ID}/node:${_NODE_TAG}'
-tags: ['cloud-builders-community', 'engineering11']
+tags:
+  - cloud-builders-community
+  - engineering11
 substitutions:
   _NODE_TAG: 16.14.0-buster
