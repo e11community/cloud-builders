@@ -14,10 +14,14 @@ steps:
           --ulimit nofile=128000:128000 \
           --tag gcr.io/${PROJECT_ID}/firebase:11.17.0 \
           --tag gcr.io/${PROJECT_ID}/firebase:gcloud-411.0.0 \
+          --tag gcr.io/${PROJECT_ID}/firebase:node-16.14.0-buster \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG1} \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG2} \
           .
 images:
+  - 'gcr.io/${PROJECT_ID}/firebase:11.17.0'
+  - 'gcr.io/${PROJECT_ID}/firebase:gcloud-411.0.0'
+  - 'gcr.io/${PROJECT_ID}/firebase:node-16.14.0-buster'
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG1}'
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG2}'
 tags: ['cloud-builders-community']
