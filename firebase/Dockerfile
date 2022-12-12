@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #
 # Highest version of node with the highest version of npm < 8.5.0
 #
