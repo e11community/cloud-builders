@@ -1,5 +1,11 @@
 # firebase
 
+## Commands
+
+```
+./build.sh --project=PROJECT_ID --main-version=12.2.1 --raw-substitutions='_GCLOUD_TAG=435.0.1' submit
+```
+
 ## Official "Deploying to Firebase" Docs
 
 This build step invokes `firebase` commands that can be used in [Google Cloud Build](https://cloud.google.com/cloud-build/).

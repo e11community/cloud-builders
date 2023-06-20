@@ -1,7 +1,8 @@
-# node
+# gcloud
 
-A Debian-based image to be patch and upgraded roughly every 2 weeks. Downstream builders will update shortly thereafter to also get these upgrades.
+## Commands
 
-Has other common CLI utilities like jq.
+```
+./build.sh --main-version=435.0.1 --project=PROJECT_ID submit
+```
 
-Core npm packages.

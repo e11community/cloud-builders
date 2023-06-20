@@ -11,13 +11,14 @@ ARG PROJECT_ID
 
 FROM gcr.io/${PROJECT_ID}/gcloud:${GCLOUD_TAG}
 
-ARG FIREBASE_URL='https://firebase.tools/bin/linux/v11.8.0'
+ARG FIREBASE_TAG=11.8.0
 
 ENV NODE_PATH=/usr/local/lib/node_modules
 
 # firebase install
-RUN mkdir -p /opt && cd /opt                                               && \
-    curl -Lso firebase --url ${FIREBASE_URL}                               && \
+RUN mkdir -p /opt && cd /opt && \                             
+    curl -Lso firebase --url https://firebase.tools/bin/linux/v${FIREBASE_TAG} && \
+    stat firebase && \
     install -m 755 ./firebase /usr/bin/firebase
 
 # firebase setup

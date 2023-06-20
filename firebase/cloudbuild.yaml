@@ -8,6 +8,7 @@ steps:
       - |
         docker build \
           --build-arg GCLOUD_TAG=${_GCLOUD_TAG} \
+          --build-arg FIREBASE_TAG=${_FIREBASE_TAG} \
           --build-arg PROJECT_ID=${PROJECT_ID} \
           --platform linux/x86_64 \
           --ulimit nofile=128000:128000 \
