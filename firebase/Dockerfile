@@ -1,14 +1,7 @@
-#
-# Highest version of node with the highest version of npm < 8.5.0
-#
-# See: https://nodejs.org/en/download/releases/
-# See: https://github.com/npm/cli/blob/latest/CHANGELOG.md#v850-2022-02-10
-# See: https://github.com/npm/cli/issues/2546
-#
-FROM node:16.14.0-buster
+FROM node:20.9.0-buster
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-411.0.0-linux-x86_64.tar.gz'
-ARG FIREBASE_URL='https://firebase.tools/bin/linux/v11.17.0'
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-453.0.0-linux-x86_64.tar.gz'
+ARG FIREBASE_URL='https://firebase.tools/bin/linux/v12.8.0'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 

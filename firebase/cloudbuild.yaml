@@ -12,22 +12,22 @@ steps:
           --build-arg NPM_TOKEN="$$engineering11_npm_auth_token" \
           --platform linux/x86_64 \
           --ulimit nofile=128000:128000 \
-          --tag gcr.io/${PROJECT_ID}/firebase:11.17.0 \
-          --tag gcr.io/${PROJECT_ID}/firebase:gcloud-411.0.0 \
+          --tag gcr.io/${PROJECT_ID}/firebase:12.8.0 \
+          --tag gcr.io/${PROJECT_ID}/firebase:gcloud-453.0.0 \
           --tag gcr.io/${PROJECT_ID}/firebase:node-16.14.0-buster \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG1} \
           --tag gcr.io/${PROJECT_ID}/firebase:${_TAG2} \
           .
 images:
-  - 'gcr.io/${PROJECT_ID}/firebase:11.17.0'
-  - 'gcr.io/${PROJECT_ID}/firebase:gcloud-411.0.0'
-  - 'gcr.io/${PROJECT_ID}/firebase:node-16.14.0-buster'
+  - 'gcr.io/${PROJECT_ID}/firebase:12.8.0'
+  - 'gcr.io/${PROJECT_ID}/firebase:gcloud-453.0.0'
+  - 'gcr.io/${PROJECT_ID}/firebase:node-20.9.0-buster'
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG1}'
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG2}'
 tags: ['cloud-builders-community']
 substitutions:
-  _TAG1: nodejs16
-  _TAG2: legacy-peer-deps
+  _TAG1: nodejs20
+  _TAG2: workspaces
 availableSecrets:
   secretManager:
     - versionName: projects/${PROJECT_ID}/secrets/engineering11_npm_auth_token/versions/latest
