@@ -1,7 +1,7 @@
-FROM node:20.9.0-buster
+FROM node:18-buster
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-453.0.0-linux-x86_64.tar.gz'
-ARG FIREBASE_URL='https://firebase.tools/bin/linux/v12.8.0'
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-455.0.0-linux-x86_64.tar.gz'
+ARG FIREBASE_URL='https://firebase.tools/bin/linux/v12.9.0'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
