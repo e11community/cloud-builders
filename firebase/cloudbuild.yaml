@@ -25,6 +25,7 @@ images:
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG1}'
   - 'gcr.io/${PROJECT_ID}/firebase:${_TAG2}'
 tags: ['cloud-builders-community']
+logging: CLOUD_LOGGING_ONLY
 substitutions:
   _TAG1: nodejs20
   _TAG2: workspaces
