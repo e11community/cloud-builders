@@ -25,7 +25,7 @@ fi
 
 declare cmd="${1:-build}"
 shift 1
-declare -a valid_cmds=(build spread)
+declare -a valid_cmds=(build spread spreadus)
 declare -i cmd_match=1
 
 for to_match in "${valid_cmds[@]}"; do
@@ -53,6 +53,13 @@ cmd_spread() {
   for other_project_id in "$@"; do
     docker tag gcr.io/${PROJECT_ID}/firebase:${TAG} gcr.io/${other_project_id}/firebase:${TAG} && \
     docker push gcr.io/${other_project_id}/firebase:${TAG}
+  done
+}
+
+cmd_spreadus() {
+  for other_project_id in "$@"; do
+    docker tag gcr.io/${PROJECT_ID}/firebase:${TAG} us.gcr.io/${other_project_id}/firebase:${TAG} && \
+    docker push us.gcr.io/${other_project_id}/firebase:${TAG}
   done
 }
 
