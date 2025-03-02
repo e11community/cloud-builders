@@ -41,9 +41,14 @@ if [ $cmd_match -ne 0 ]; then
 fi
 
 cmd_build() {
+  NPM_TOKEN=$(gcloud secrets versions access latest --secret=engineering11_npm_auth_token --project ${PROJECT_ID})
+  if [ $? -ne 0 ]; then
+    echo 'Secret engineering11_npm_auth_token needed to continue!' >&2
+    return 1
+  fi
   docker build \
     --platform linux/x86_64 \
-    --build-arg NPM_TOKEN=$(gcloud secrets versions access latest --secret=engineering11_npm_auth_token --project ${PROJECT_ID}) \
+    --build-arg NPM_TOKEN="${NPM_TOKEN}" \
     --ulimit nofile=128000:128000 \
     --tag gcr.io/${PROJECT_ID}/firebase:${TAG} . && \
   docker push gcr.io/${PROJECT_ID}/firebase:${TAG}
