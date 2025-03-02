@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-declare PROJECT_ID='' TAG=''
+declare PROJECT_ID='' TAG='' domain='us.gcr.io'
 declare -i to_shift=0
 
 for arg in "$@"; do
@@ -25,7 +25,7 @@ fi
 
 declare cmd="${1:-build}"
 shift 1
-declare -a valid_cmds=(build spread spreadus)
+declare -a valid_cmds=(build spread)
 declare -i cmd_match=1
 
 for to_match in "${valid_cmds[@]}"; do
@@ -50,21 +50,14 @@ cmd_build() {
     --platform linux/x86_64 \
     --build-arg NPM_TOKEN="${NPM_TOKEN}" \
     --ulimit nofile=128000:128000 \
-    --tag gcr.io/${PROJECT_ID}/firebase:${TAG} . && \
-  docker push gcr.io/${PROJECT_ID}/firebase:${TAG}
+    --tag ${domain}/${PROJECT_ID}/firebase:${TAG} . && \
+  docker push ${domain}/${PROJECT_ID}/firebase:${TAG}
 }
 
 cmd_spread() {
   for other_project_id in "$@"; do
-    docker tag gcr.io/${PROJECT_ID}/firebase:${TAG} gcr.io/${other_project_id}/firebase:${TAG} && \
-    docker push gcr.io/${other_project_id}/firebase:${TAG}
-  done
-}
-
-cmd_spreadus() {
-  for other_project_id in "$@"; do
-    docker tag gcr.io/${PROJECT_ID}/firebase:${TAG} us.gcr.io/${other_project_id}/firebase:${TAG} && \
-    docker push us.gcr.io/${other_project_id}/firebase:${TAG}
+    docker tag ${domain}/${PROJECT_ID}/firebase:${TAG} ${domain}/${other_project_id}/firebase:${TAG} && \
+    docker push ${domain}/${other_project_id}/firebase:${TAG}
   done
 }
 
