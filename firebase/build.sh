@@ -5,6 +5,7 @@ declare -i to_shift=0
 
 for arg in "$@"; do
   case "$arg" in
+    --domain=*) ((++to_shift)); domain="${arg#*=}";;
     --project=*) ((++to_shift)); PROJECT_ID="${arg#*=}";;
     --project-id=*) ((++to_shift)); PROJECT_ID="${arg#*=}";;
     --tag=*) ((++to_shift)); TAG="${arg#*=}";;
