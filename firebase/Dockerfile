@@ -1,7 +1,7 @@
 FROM node:20-bullseye
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-528.0.0-linux-x86_64.tar.gz'
-ARG FIREBASE_URL='https://firebase.tools/bin/linux/v14.9.0'
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-583.0.0-linux-x86_64.tar.gz'
+ARG FIREBASE_VERSION='14.9.0'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
@@ -22,6 +22,7 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
         @angular/cli                                           \
         @angular-devkit/schematics-cli                         \
         api-spec-converter                                     \
+        firebase-tools@${FIREBASE_VERSION}                     \
         google-auth-library                                    \
         @google-cloud/appengine-admin                          \
         @google-cloud/iap                                      \
@@ -42,10 +43,9 @@ RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
         @engineering11/sdk-schematics                          && \
     rm -f ~/.npmrc
 
-# firebase and gcloud install
+# gcloud install (firebase CLI comes from npm above, so it runs on this
+# image's node rather than the node embedded in the standalone binary)
 RUN mkdir -p /opt && cd /opt                                               && \
-    curl -Lso firebase --url ${FIREBASE_URL}                               && \
-    install -m 755 ./firebase /usr/bin/firebase                            && \
     curl -so gcp-sdk.tgz --url ${CLOUD_SDK_URL}                            && \
     tar xfz gcp-sdk.tgz                                                    && \
     cd google-cloud-sdk                                                    && \
