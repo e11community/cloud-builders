@@ -1,7 +1,7 @@
-FROM node:20-bullseye
+FROM node:24-bullseye
 
 ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-583.0.0-linux-x86_64.tar.gz'
-ARG FIREBASE_VERSION='14.9.0'
+ARG FIREBASE_VERSION='15.29.0'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
