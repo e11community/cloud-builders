@@ -18,6 +18,7 @@ RUN apt-get update       && \
 
 # public node packages
 RUN npm install --no-progress --global --legacy-peer-deps=true \
+        --allow-scripts=protobufjs,re2                         \
         ajv@6.9.2                                              \
         @angular/cli                                           \
         @angular-devkit/schematics-cli                         \
@@ -38,6 +39,7 @@ RUN npm install --no-progress --global --legacy-peer-deps=true \
 RUN npm config set @engineering11:registry=https://${NPM_E11}/ && \
     npm config set //${NPM_E11}/:_authToken=${NPM_TOKEN}       && \
     npm install --legacy-peer-deps=true --no-progress --global    \
+        --allow-scripts=protobufjs,re2                            \
         @e11community/token-exporter                              \
         @engineering11/ecli                                       \
         @engineering11/sdk-schematics                          && \
