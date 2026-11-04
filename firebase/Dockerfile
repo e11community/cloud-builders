@@ -1,7 +1,7 @@
-FROM node:24-bullseye
+FROM node:24-trixie
 
-ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-583.0.0-linux-x86_64.tar.gz'
-ARG FIREBASE_VERSION='15.29.0'
+ARG CLOUD_SDK_URL='https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-592.0.0-linux-x86_64.tar.gz'
+ARG FIREBASE_VERSION='15.34.2'
 ARG NPM_E11='npm.pkg.github.com/engineering11'
 ARG NPM_TOKEN
 
@@ -12,7 +12,7 @@ RUN apt-get update       && \
     apt-get install -y      \
             gettext-base    \
             jq              \
-            netcat          \
+            netcat-openbsd  \
             sudo            \
             zip
 
@@ -69,8 +69,5 @@ RUN . /usr/local/lib/utils.bash             && \
     echo '~===~ node limits ~===~'          && \
     sudo -u node sh -c 'ulimit -a'          && \
     echo '~===~ -*-*-*-*-*- ~===~'
-
-ADD firebase.bash /usr/bin
-RUN chmod +x /usr/bin/firebase.bash
 
 ENTRYPOINT [ "/usr/bin/firebase.bash" ]
